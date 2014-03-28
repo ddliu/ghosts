@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "flag"
 
     "github.com/ddliu/ghosts"
@@ -44,16 +45,51 @@ func main() {
         return
     }
 
+    names := flag.Args()
+
+    if len(names) == 0 {
+        fatal(fmt.Errorf("Please specify at least one group name"))
+        return
+    }
+
     if printOut {
         if raw {
-            content, err := app.GenerateRaw()
-            if err != nil
+            content, err := app.GenerateRaw(names...)
+            if err != nil {
+                fatal(err)
+                return
+            }
+
+            fmt.Println(content)
+        } else {
+            content, err := app.Generate(names...)
+            if err != nil {
+                fatal(err)
+                return
+            }
+
+            fmt.Println(content)
         }
         return
     }
 
     if raw {
-
+        err := app.SwitchRaw(names...)
+        if err != nil {
+            fatal(err)
+            return
+        }
+    } else {
+        err := app.Switch(names...)
+        if err != nil {
+            fatal(err)
+            return
+        }
     }
-    flag.Args()
+
+    fmt.Println("Switch done!")
+}
+
+func fatal(e error) {
+    fmt.Println(e)
 }
