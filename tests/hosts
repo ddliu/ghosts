@@ -1,7 +1,6 @@
 # This is a host file for testing only
 
-# Localhost
-127.0.0.1   localhost
+192.168.1.200   ns.example.com
+192.168.1.201   ns1.example.com
 
-192.168.1.200   google.com # google
-
+192.168.1.202   ns2.example.com
