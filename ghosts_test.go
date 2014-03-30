@@ -56,7 +56,7 @@ func TestFile(t *testing.T) {
     }
 }
 
-func xTestRemoteFile(t *testing.T) {
+func TestRemoteFile(t *testing.T) {
     n := &HostFileRemote {
         FileUrl: "https://raw.githubusercontent.com/ddliu/hosts/master/ghosts.example.hosts",
     }

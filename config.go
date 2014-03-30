@@ -29,7 +29,12 @@ func GetTargetPath() string {
 
 func GetConfigPath() string {
     if Environment.ConfigPath == "" {
-        return "/home/dong/.ghosts/ghosts.yml"
+        p, err :=  GetSysConfigPath()
+        if err != nil {
+            panic(err)
+        }
+
+        return p
     }
 
     return Environment.ConfigPath
