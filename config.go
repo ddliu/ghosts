@@ -84,7 +84,7 @@ func (this *Config) ParseName(name string) (HostNode, error) {
 
     _, ok = this.pending[name]
     if ok {
-        return nil, errors.New("Bad reference: " + name)
+        return nil, errors.New("#1 Bad reference: " + name)
     }
 
     this.pending[name] = true
@@ -94,6 +94,7 @@ func (this *Config) ParseName(name string) (HostNode, error) {
     data, _ := this.data[name]
     switch v := data.(type) {
     case string:
+        v = strings.TrimSpace(v)
         // it's url
         if isUrl(v) {
             return &HostFileRemote {FileUrl: v}, nil
@@ -117,7 +118,7 @@ func (this *Config) ParseName(name string) (HostNode, error) {
             return n, nil
         }
 
-        return nil, errors.New("Invalid config entry: " + v)
+        return nil, errors.New("#2 Invalid config entry: " + v)
     case []interface{}:
         list, err := convertList(v)
         if err != nil {
@@ -126,6 +127,7 @@ func (this *Config) ParseName(name string) (HostNode, error) {
 
         g := &HostGroup{}
         for _, v := range list {
+            v = strings.TrimSpace(v)
             // it's url
             if isUrl(v) {
                 g.Add(&HostFileRemote {FileUrl: v})
@@ -157,12 +159,12 @@ func (this *Config) ParseName(name string) (HostNode, error) {
                 continue
             }
 
-            return nil, errors.New("Invalid config entry: " + v)
+            return nil, errors.New("#3 Invalid config entry: " + v)
         }
 
         return g, nil
     }
-    return nil, errors.New("Invalid config entry: " + name)
+    return nil, errors.New("#4 Invalid config entry: " + name)
 }
 
 // Convert []interface{} to []string
@@ -171,7 +173,7 @@ func convertList(l []interface{}) ([]string, error) {
     for k, v := range l {
         s, ok :=  v.(string)
         if !ok {
-            return nil, fmt.Errorf("Invalid config entry: %v", v)
+            return nil, fmt.Errorf("#5 Invalid config entry: %v", v)
         }
 
         result[k] = s
@@ -182,7 +184,7 @@ func convertList(l []interface{}) ([]string, error) {
 
 // Check if it's a file
 func detectFile(s string) string {
-    if strings.IndexAny(s, `?<>\:*|”\r\n`) != -1 {
+    if strings.IndexAny(s, "?<>\\:*|\"\r\n") != -1 {
         return ""
     }
 

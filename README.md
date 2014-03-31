@@ -17,6 +17,12 @@ Efficient hosts switcher
 
 Tested on Ubuntu linux.
 
+## Install
+
+```
+go get github.com/ddliu/ghosts/ghosts
+```
+
 ## Usage
 
 ```

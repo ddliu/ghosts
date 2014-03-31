@@ -16,7 +16,7 @@ import (
 
 // http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
 const ValidIpAddressRegex = `^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`;
-const ValidHostnameRegex = `^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$`;
+const ValidHostnameRegex = `^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9_\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9_\-]*[A-Za-z0-9])$`;
 var ValidIpAddressRegexCompile *regexp.Regexp
 var ValidHostnameRegexCompile *regexp.Regexp
 
@@ -260,7 +260,7 @@ func parseReader(r io.Reader) ([]HostStruct, error) {
             line = line[0:i]
         }
 
-        line = strings.Trim(line, " \t\r")
+        line = strings.TrimSpace(line)
 
         // Only parse none empty line
         if line != "" {
